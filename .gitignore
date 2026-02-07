@@ -7,14 +7,24 @@ env/
 .env
 
 # Models
-*.pkl
-*.model
-*.joblib
+# Allowing .pkl files for deployment
+# *.pkl
+# *.model
+# *.joblib
 
 # Data
 data/job_market_data.csv
 
-# IDE
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.eslintcache
+frontend/src/assets/*
+!frontend/src/assets/react.svg
+
+# OS & IDE
 .vscode/
 .idea/
 .gemini/
+.DS_Store
+Thumbs.db

@@ -1,45 +1,45 @@
-# AI-Driven Job Market Intelligence & Salary Optimization System
+# 🚀 AI-Driven Job Market Intelligence (Full-Stack)
 
-This project is an end-to-end AI system that analyzes job market data to identify in-demand skills, predict salaries, and recommend skill paths for job seekers.
+A premium, interactive AI system for job market intelligence. This version transitions from Streamlit to a modern **Full-Stack** architecture for better performance, aesthetics, and hosting flexibility.
 
-## 🚀 Features
-- **Market Overview**: Interactive visualizations of skill demand and salary distributions.
-- **Salary Predictor**: ML model to estimate market value based on title, location, and skills.
-- **Skill Path Optimizer**: Identifies skill gaps and recommends learning paths for target roles.
+## ✨ Features
+- **Glassmorphism Dashboard**: Interactive market overview with animated charts.
+- **AI Salary Engine**: Real-time salary projection based on multiple market variables.
+- **Skill Gap Analysis**: Visualized career path optimization.
+- **Docker Ready**: Multi-stage Dockerfile for production deployment.
 
 ## 🛠️ Tech Stack
-- **Frontend**: Streamlit
-- **Backend**: FastAPI
-- **ML**: Scikit-learn (RandomForest), Joblib
-- **Data**: Pandas, Numpy, Plotly
+- **Frontend**: React (Vite), Recharts, Lucide, Axios.
+- **Backend**: FastAPI, Pydantic, Uvicorn.
+- **AI/ML**: Scikit-learn (RandomForest), Joblib.
+- **DevOps**: Docker.
 
 ## 🏗️ Setup & Installation
 
-1. **Clone the repository**:
-   ```bash
-   git clone <your-repo-url>
-   cd ai-job-market-project
-   ```
-
-2. **Install dependencies**:
+1. **Clone & Install Backend**:
    ```bash
    pip install -r requirements.txt
-   ```
-
-3. **Generate Data & Train Models**:
-   ```bash
    python src/utils/generate_data.py
    python src/models/train.py
    ```
 
-4. **Run the API Backend**:
+2. **Run Backend API**:
    ```bash
-   python src/api/main.py
+   uvicorn src.api.main:app --reload
    ```
 
-5. **Run the Dashboard**:
+3. **Setup & Run Frontend**:
    ```bash
-   streamlit run dashboard/app.py
+   cd frontend
+   npm install
+   npm run dev
    ```
 
+4. **Docker (Optional)**:
+   ```bash
+   docker build -t ai-job-market .
+   docker run -p 8000:8000 ai-job-market
+   ```
+
+---
 Developed by **G R VIGNESH**

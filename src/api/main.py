@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import joblib
 import pandas as pd
@@ -6,6 +7,22 @@ import numpy as np
 from typing import List, Optional
 
 app = FastAPI(title="AI Job Market Intelligence API")
+
+# Enable CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify the actual origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Load data for market insights
+try:
+    df_market = pd.read_csv("data/job_market_data.csv")
+except Exception as e:
+    print(f"Error loading CSV data: {e}")
+    df_market = pd.DataFrame()
 
 # Load models and artifacts
 try:
@@ -35,6 +52,26 @@ class RecommendationRequest(BaseModel):
 @app.get("/")
 def read_root():
     return {"message": "Welcome to the AI Job Market Intelligence API"}
+
+@app.get("/market_data")
+def get_market_data():
+    if df_market.empty:
+        return {"error": "Data not available"}
+    
+    # Calculate some basic stats for the dashboard
+    all_skills = df_market['Skills'].str.split(', ').explode()
+    skill_counts = all_skills.value_counts().head(12).to_dict()
+    
+    job_salary = df_market.groupby('Job Title')['Salary'].mean().to_dict()
+    
+    exp_salary = df_market.groupby('Experience Level')['Salary'].mean().to_dict()
+    
+    return {
+        "skill_demand": [{"skill": k, "count": v} for k, v in skill_counts.items()],
+        "job_salary": [{"title": k, "salary": v} for k, v in job_salary.items()],
+        "exp_salary": [{"level": k, "salary": v} for k, v in exp_salary.items()],
+        "total_postings": len(df_market)
+    }
 
 @app.post("/predict_salary", response_model=PredictionResponse)
 def predict_salary(req: PredictionRequest):
